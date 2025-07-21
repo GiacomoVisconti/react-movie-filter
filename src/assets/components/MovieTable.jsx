@@ -17,8 +17,13 @@ export default function MovieTable(){
         // search mode
         const [search, setSearch] = useState('')
         const [selected, setSelected] = useState('')
-        const [filteredMovies, setFilteredMovies] = useState(moviesList)
+        // const [filteredMovies, setFilteredMovies] = useState(moviesList)
 
+        const genresRaw = moviesList.map(({genre}) => {
+            return genre
+        })
+
+        const genres = [...new Set(genresRaw)]
 
     useEffect(() => {
 
@@ -105,10 +110,9 @@ export default function MovieTable(){
                         <input onChange={handleChangeSearch} type="text" value={search} className='form-control' placeholder='Insert the Movie title'/>
                         <select onChange={handleSelectSearch} className="form-select">
                             <option defaultValue>Select a Genre</option>
-                            {moviesList.map(({genre}, index) => {
+                            {genres.map((genre, index) => {
                                 return (
-
-                                    <option key={index} value={genre}>{genre}</option>
+                                    <option key={index} value={genre}> {genre} </option>
                                 )
                             })}
                         </select>
@@ -127,12 +131,13 @@ export default function MovieTable(){
                         <input onChange={handleChangeAddTitle} type="text" value={newMovieTitle} className='form-control' placeholder='Insert the Movie title'/>
                         <select onChange={handleChangeAddGenre} className="form-select">
                             <option defaultValue>Select a Genre</option>
-                            {moviesList.map(({genre}, index) => {
+                            {
+                            genres.map((genre, index) => {
                                 return (
-
-                                    <option key={index} value={genre}>{genre}</option>
+                                    <option key={index} value={genre}> {genre} </option>
                                 )
-                            })}
+                            })
+                            }
                         </select>
                     </div>
                     <div className="d-flex gap-3 justify-content-center py-3">
