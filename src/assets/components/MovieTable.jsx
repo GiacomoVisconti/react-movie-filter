@@ -6,7 +6,37 @@ export default function MovieTable(){
 
     const [moviesList, setMovieList] = useState(movies)
     const [search, setSearch] = useState('')
+    const [selected, setSelected] = useState('')
+    const [filteredMovies, setFilteredMovies] = useState(moviesList)
 
+    useEffect(() => {
+        console.log(moviesList);
+        
+        const filtered = moviesList.filter((element) => {
+            console.log(element.title.includes(search), element.genre.includes(selected));
+            
+            if(element.genre.includes(selected)){
+                return element
+            }
+        })
+        console.log(filtered);
+        setFilteredMovies(filtered)
+        
+        
+    },[search, selected, moviesList])
+
+    // Event Functions
+    function handleSubmit (e){
+        e.preventDefault()
+    }
+
+    function handleChange(e){
+        setSearch(e.target.value)
+    }
+
+    function handleSelect(e){
+        setSelected(e.target.value)
+    }
 
     return (
 
@@ -15,9 +45,9 @@ export default function MovieTable(){
             <div className="container my-4">
                 <h2>Filter Movies</h2>
                 <hr />
-                <form className='d-flex gap-3'>
-                    <input type="text" className='form-control' placeholder='Insert the Movie title'/>
-                    <select className="form-select">
+                <form onSubmit={handleSubmit} className='d-flex gap-3'>
+                    <input onChange={handleChange} type="text" value={search} className='form-control' placeholder='Insert the Movie title'/>
+                    <select onChange={handleSelect} className="form-select">
                         <option defaultValue>Select a Genre</option>
                         {moviesList.map(({genre}, index) => {
                             return (
@@ -26,7 +56,7 @@ export default function MovieTable(){
                             )
                         })}
                     </select>
-                    <button type="submit" class="btn btn-success">Search</button>
+                    <button type="submit" className="btn btn-success">Search</button>
                 </form>
             </div>
             {/* Movie Table */}
@@ -44,7 +74,7 @@ export default function MovieTable(){
                             </tr>
                         </thead>
                         <tbody>
-                            {moviesList.map(({id, title, genre}, index) => {
+                            {filteredMovies.map(({id, title, genre}, index) => {
                                 return (
 
                                     <tr key={index}>
