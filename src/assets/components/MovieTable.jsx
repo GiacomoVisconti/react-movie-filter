@@ -13,13 +13,11 @@ export default function MovieTable(){
         console.log(moviesList);
         
         const filtered = moviesList.filter((element) => {
-            console.log(element.title.includes(search), element.genre.includes(selected));
             
-            if(element.genre.includes(selected)){
+            if(element.genre.includes(selected) && element.title.includes(search)){
                 return element
             }
         })
-        console.log(filtered);
         setFilteredMovies(filtered)
         
         
