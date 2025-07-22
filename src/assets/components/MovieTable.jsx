@@ -16,8 +16,8 @@ export default function MovieTable(){
         
         // search mode
         const [search, setSearch] = useState('')
-        const [selected, setSelected] = useState('')
-        // const [filteredMovies, setFilteredMovies] = useState(moviesList)
+        const [selected, setSelected] = useState(null)
+        const [filteredMovies, setFilteredMovies] = useState(moviesList)
 
         const genresRaw = moviesList.map(({genre}) => {
             return genre
@@ -40,13 +40,13 @@ export default function MovieTable(){
             })
             console.log(filtered);
             
-            // setFilteredMovies(filtered)
-            setMovieList(filtered)
+            setFilteredMovies(filtered)
+            // setMovieList(filtered)
             
         }
         
         
-    },[search, selected])
+    },[search, selected, moviesList])
 
     // Event Functions
     function handleClickSearch(){
@@ -64,6 +64,7 @@ export default function MovieTable(){
 
         
         setMovieList([...moviesList, newMovieObj])
+        
     }
 
     // Search mode
@@ -109,7 +110,7 @@ export default function MovieTable(){
                     <div className='d-flex gap-3'>
                         <input onChange={handleChangeSearch} type="text" value={search} className='form-control' placeholder='Insert the Movie title'/>
                         <select onChange={handleSelectSearch} className="form-select">
-                            <option defaultValue>Select a Genre</option>
+                            <option value={''}>Select a Genre</option>
                             {genres.map((genre, index) => {
                                 return (
                                     <option key={index} value={genre}> {genre} </option>
@@ -161,7 +162,7 @@ export default function MovieTable(){
                             </tr>
                         </thead>
                         <tbody>
-                            {moviesList.map(({id, title, genre}, index) => {
+                            {filteredMovies.map(({id, title, genre}, index) => {
                                 return (
 
                                     <tr key={index}>
